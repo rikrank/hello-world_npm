@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/rikrank/hello-world_npm#readme",
   "devDependencies": {
-    "release-it": "^2.0.0"
+    "@release-it/conventional-changelog": "^5.1.1",
+    "release-it": "^15.10.1"
   }
 }
