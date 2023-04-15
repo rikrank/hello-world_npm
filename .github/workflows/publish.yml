@@ -20,8 +20,6 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
         scope: "@rinkrank" # Replace with your GitHub username or organization name
 
-    - name: Install dependencies
-      run: npm ci
     - name: Prepare release
       run: npx release-it --ci --disable-metrics --no-git.requireUpstream --no-npm.publish --config=.release-it.json
 
