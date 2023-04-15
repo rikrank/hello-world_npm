@@ -12,12 +12,5 @@
     "publishConfig": {
       "registry": "https://npm.pkg.github.com"
     }
-  },
-  "plugins": {
-    "@release-it/conventional-changelog": {
-      "preset": "angular",
-      "infile": "CHANGELOG.md",
-      "commit": "docs: update changelog"
-    }
   }
 }
