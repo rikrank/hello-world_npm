@@ -1,23 +1,17 @@
 {
+  "requireUpstream": false,
+  "requireCleanWorkingDir": false,
+  "github": {
+    "release": true
+  },
   "git": {
-    "commitMessage": "Release v${version}",
-    "tagName": "v${version}",
+    "commit": false,
+    "push": false,
     "requireUpstream": false,
     "requireCleanWorkingDir": false
   },
-  "github": {
-    "release": false
-  },
   "npm": {
-    "publishConfig": {
-      "registry": "https://npm.pkg.github.com"
-    }
-  },
-  "plugins": {
-    "@release-it/conventional-changelog": {
-      "preset": "angular",
-      "infile": "CHANGELOG.md",
-      "commit": "docs: update changelog"
-    }
+    "publish": false,
+    "ignoreVersion": true
   }
 }
