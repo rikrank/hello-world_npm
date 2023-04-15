@@ -3,7 +3,7 @@ on:
   push:
     # mainブランチにコミットがpushされたときに限定
     branches:
-      - main
+      - master
     # 上記条件に加えてgenディレクトリ配下が変更されたときのみという条件を追加
     paths:
       - gen/**
