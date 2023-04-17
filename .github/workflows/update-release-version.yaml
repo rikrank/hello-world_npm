@@ -18,3 +18,20 @@ jobs:
         run: |
           echo "::error::リリースラベルを付与してください。labels: `release:patch`, `release:minor`, `release:major`"
           exit 1
+  version_diff:
+    if: |
+        contains(github.event.pull_request.labels.*.name, 'release:patch') ||
+        contains(github.event.pull_request.labels.*.name, 'release:minor') ||
+        contains(github.event.pull_request.labels.*.name, 'release:major')
+    runs-on: ubuntu-latest
+    outputs:
+      chagned: ${{ steps.get_diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: マージ先を取得
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
+      - name: パージョンの変更を保持する
+        id: get_diff
+        run: echo "changed=$(git diff origin/${{ github.base_ref }} HEAD --relative "./package.json" | grep "^+.\+version" | wc -l)" >> $GITHUB_OUTPUT
