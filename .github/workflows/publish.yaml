@@ -6,32 +6,32 @@ on:
     types: [closed]
 
 jobs:
-  publish:
-    runs-on: ubuntu-20.04
-    permissions:
-      contents: read
-      deployments: write
-      statuses: write
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 16
-        uses: actions/setup-node@v1
-        with:
-          node-version: 16
   tag:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Create .npmrc with replace token
         shell: bash
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          \cp -r ./.npmrc.example ./.npmrc
-          sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
-          rm ./.npmrce
+          if [ -f ./.npmrc.example ]; then
+            \cp -r ./.npmrc.example ./.npmrc
+            sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
+            rm ./.npmrce
+          else
+            echo ".npmrc.example not found"
+          fi
 
       - name: Check .npmrc
         run: |
