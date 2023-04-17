@@ -21,6 +21,9 @@ jobs:
         run: |
           git config --global user.name release-bot
           git config --global user.email release-bot@example.com
+      - name: Set .npmrc
+        # ポイント2
+        run: echo '//npm.pkg.github.com/:_authToken=${TOKEN_FOR_GITHUB}' > .npmrc
       - name: Major release
         id: major
         run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it major --ci
