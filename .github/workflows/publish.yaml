@@ -10,9 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
+
+      - name: Create .npmrc with replace token
+        shell: bash
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          \cp -r ./.npmrc.example ./.npmrc
+          sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
+          rm ./.npmrce
+
+      - name: Check .npmrc
+        run: |
+          cat ./.npmrc
+
       - name: パッケージの公開
         if: contains(github.event.pull_request.labels.*.name, 'release:patch') || contains(github.event.pull_request.labels.*.name, 'release:minor') || contains(github.event.pull_request.labels.*.name, 'release:major')
-        run: |
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run : npm publish --access=public
