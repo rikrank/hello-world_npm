@@ -2,7 +2,7 @@ name: ラベルに応じて package.json のバージョンを更新する
 on:
   pull_request:
     branches:
-      - main
+      - master
     types:
       - labeled
       - unlabeled
