@@ -21,14 +21,25 @@ jobs:
         run: |
           git config --global user.name release-bot
           git config --global user.email release-bot@example.com
+
       - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
           node-version: 16
 
-      - name: Set .npmrc
-        # ポイント2
-        run: echo 's|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g' > .npmrc
+      - name: Create .npmrc with replace token
+        shell: bash
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          \cp -r ./.npmrc.example ./.npmrc
+          sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
+          rm ./.npmrce
+
+      - name: Check .npmrc
+        run: |
+          cat ./.npmrc
+
       - name: Major release
         id: major
         run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it major --ci

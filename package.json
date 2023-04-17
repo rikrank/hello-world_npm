@@ -18,7 +18,7 @@
     "url": "https://github.com/rikrank/hello-world_npm/issues"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://github.com/rikrank/hello-world_npm#readme",
   "devDependencies": {
