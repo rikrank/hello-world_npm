@@ -41,4 +41,4 @@ jobs:
         # ポイント3
         run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it patch --ci
         # ポイント4
-        if: !(steps.major.conclusion == 'success' || steps.minor.conclusion == 'success')
+        if: "!(steps.major.conclusion == 'success' || steps.minor.conclusion == 'success')"
