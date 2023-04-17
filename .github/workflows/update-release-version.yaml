@@ -84,6 +84,6 @@ jobs:
       - name: パッケージの公開
         if: contains(github.event.pull_request.labels.*.name, 'release:patch') || contains(github.event.pull_request.labels.*.name, 'release:minor') || contains(github.event.pull_request.labels.*.name, 'release:major')
         run: |
-          npm publish --access public --non-interactive --no-git-tag-version --new-version $(grep version package.json | awk -F \" '{print $4}')
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
