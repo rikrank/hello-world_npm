@@ -1,0 +1,20 @@
+name: ラベルに応じて package.json のバージョンを更新する
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+jobs:
+  check_release_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ラベルが無ければエラーを吐く
+        if: |
+          !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
+          !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
+          !contains(github.event.pull_request.labels.*.name, 'release:major')
+        run: |
+          echo "::error::リリースラベルを付与してください。labels: `release:patch`, `release:minor`, `release:major`"
+          exit 1
