@@ -25,9 +25,13 @@ jobs:
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
-          \cp -r ./.npmrc.example ./.npmrc
-          sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
-          rm ./.npmrce
+          if [ -f ./.npmrc.example ]; then
+            \cp -r ./.npmrc.example ./.npmrc
+            sed -ie "s|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g" ./.npmrc
+            rm ./.npmrce
+          else
+            echo ".npmrc.example not found"
+          fi
 
       - name: Check .npmrc
         run: |
