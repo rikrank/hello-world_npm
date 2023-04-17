@@ -1,0 +1,44 @@
+name: auto-release
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  auto-release:
+    runs-on: ubuntu-latest
+    env:
+      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_IT_VERSION: 14.4.1
+      RELEASE_IT_CHANGELOG_VERSION: 2.0.1
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # ポイント1
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+      - name: Set releaser settings
+        run: |
+          git config --global user.name release-bot
+          git config --global user.email release-bot@example.com
+      - name: Use Node.js 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Set .npmrc
+        # ポイント2
+        run: echo 's|PERSONAL_ACCESS_TOKEN|${PERSONAL_ACCESS_TOKEN}|g' > .npmrc
+      - name: Major release
+        id: major
+        run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it major --ci
+        if: contains(toJSON(github.event.commits.*.message), 'bump up version major')
+      - name: Minor release
+        id: minor
+        run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it minor --ci
+        if: steps.major.conclusion == 'skipped' && contains(toJSON(github.event.commits.*.message), 'bump up version minor')
+      - name: Patch release
+        # ポイント3
+        run: npx --package release-it@${RELEASE_IT_VERSION} --package @release-it/conventional-changelog@${RELEASE_IT_CHANGELOG_VERSION} release-it patch --ci
+        # ポイント4
+        if: !(steps.major.conclusion == 'success' || steps.minor.conclusion == 'success')
