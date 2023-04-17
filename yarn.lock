@@ -199,6 +199,11 @@
     conventional-recommended-bump "^6.1.0"
     semver "7.3.8"
 
+"@rikrank/hello-world_npm@1.0.10":
+  version "1.0.10"
+  resolved "https://npm.pkg.github.com/download/@rikrank/hello-world_npm/1.0.10/168cf8f1a52886db5ddd7e0b28814a9ac5c4e29b#168cf8f1a52886db5ddd7e0b28814a9ac5c4e29b"
+  integrity sha512-2WeqpxHwXQN1kx8dnrada0Omg/vCeiBPsw35zHHK24/nswDCDR6taLWyl4x5/vkma3gI3m8B+a4FDHogC3R8hw==
+
 "@sindresorhus/is@^5.2.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-5.3.0.tgz#0ec9264cf54a527671d990eb874e030b55b70dcc"
