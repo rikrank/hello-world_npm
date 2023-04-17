@@ -1,0 +1,18 @@
+name: パッケージの公開
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: パッケージの公開
+        if: contains(github.event.pull_request.labels.*.name, 'release:patch') || contains(github.event.pull_request.labels.*.name, 'release:minor') || contains(github.event.pull_request.labels.*.name, 'release:major')
+        run: |
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
